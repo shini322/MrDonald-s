@@ -48,13 +48,13 @@ const ItemImg = styled.img`
     transition: .3s;
 `;
 
-const ListItem = ({item}) => {
+const ListItem = ({item, setOpenItem}) => {
     return(  
         <List>
             {item.map(item => {
                 const {name, img, id, price, toppings} = item;
                 return(
-                    <Item key={id} img={img}>
+                    <Item key={id} img={img} onClick={() => setOpenItem(item)}>
                         <ItemImg src={img} alt="img"/>
                         <p>{name}</p>
                         <p>{price.toLocaleString('ru-Ru', {style: 'currency', currency: 'RUB'})}</p>
