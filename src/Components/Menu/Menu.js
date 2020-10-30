@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Banner from './Banner';
+import Banner from '../Modal/Banner';
 import ListItem from './ListItem';
-import dbMenu from './DBMenu';
+import dbMenu from '../DBMenu';
 
 const MenuStyled = styled.main`
     margin-top: 80px;

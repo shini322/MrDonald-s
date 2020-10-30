@@ -52,7 +52,7 @@ const ListItem = ({item, setOpenItem}) => {
     return(  
         <List>
             {item.map(item => {
-                const {name, img, id, price, toppings} = item;
+                const {name, img, id, price} = item;
                 return(
                     <Item key={id} img={img} onClick={() => setOpenItem(item)}>
                         <ItemImg src={img} alt="img"/>
