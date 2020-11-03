@@ -2,6 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 import AddBtn from '../Style/AddBtn';
+import CountItem from './CountItem';
+import useCount from '../Hooks/useCount';
+import Topping from './Toppings';
+
+import {totalPriceItems} from '../Functions/secondatyFuction';
+import {formatCurrency} from '../Functions/secondatyFuction';
+import useToppings from '../Hooks/useToppings';
 
 const Overlay = styled.div`
     position: fixed;
@@ -35,7 +42,6 @@ const Modal = styled.div`
 const ModalInfo = styled.div`
     display: flex;
     justify-content: space-between;
-    padding: 0 15px;
     margin-top: 15px;
 `;
 
@@ -45,43 +51,73 @@ const ModalInfoItem = styled.div`
     line-height: 28px;
 `;
 
+const ModalWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 0 15px;
+`;
 
+const TotalPriceItem = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+`;
 
-const ModalItem = ({openItem, setOpenItem, orders, setOrders}) => {
+export const ModalItem = ({openItem, setOpenItem, orders, setOrders}) => {
 
-    
+    const {name, price, img} = openItem;
+
+    const counter = useCount();
+    const toppings = useToppings(openItem);
+    const checkedToppings = toppings.toppings.filter(item => item.checked);
+    console.log(checkedToppings)
+
     const closeModal = (e) => {
         if(e.target.id === 'overlay'){
             setOpenItem(null);
         }
     }
 
-    const order = {...openItem};
+    const order = {
+        ...openItem,
+        count: counter.count,
+        topping: checkedToppings
+    };
 
     const addToOrder = () => {
         setOrders([...orders, order]);
         setOpenItem(null);
     }
-
-    const {name, price, img} = openItem;
+    
     return(
         <Overlay id="overlay" onClick={closeModal}>
             <Modal>
                 <Banner img={img}/>
-                <ModalInfo>
-                    <ModalInfoItem>
-                        {name}
-                    </ModalInfoItem>
-                    <ModalInfoItem>
-                        {price.toLocaleString('ru-Ru', {style: 'currency', currency: 'RUB'})}
-                    </ModalInfoItem>                    
-                </ModalInfo>
+                <ModalWrapper>
+                    <ModalInfo>
+                        <ModalInfoItem>
+                            {name}
+                        </ModalInfoItem>
+                        <ModalInfoItem>
+                            {formatCurrency(price)}
+                        </ModalInfoItem>                    
+                    </ModalInfo>
+                    <CountItem {...counter}/>
+                    {openItem.toppings && <Topping {...toppings}/>}
+                    <TotalPriceItem>
+                        <span>Цена: </span>
+                        <span>{formatCurrency(totalPriceItems(order))}
+                        </span>
+                    </TotalPriceItem>
+                </ModalWrapper>
                 <AddBtn onClick={addToOrder}>
                     Добавить
                 </AddBtn>
             </Modal>
         </Overlay>
     )
+    
 }
 
-export default ModalItem;
+
+// export default ModalItem;

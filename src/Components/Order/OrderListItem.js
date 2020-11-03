@@ -2,10 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import trashImg from '../../images/trash.svg';
 
+import {totalPriceItems} from '../Functions/secondatyFuction';
+import {formatCurrency} from '../Functions/secondatyFuction';
+import useToppings from '../Hooks/useToppings';
+
 const OrderItemStyled = styled.li`
     display: flex;
     align-items: center;
-    margin: 15px 0;
+    margin: 15px 0 0;
 `;
 
 const TrashBtn = styled.button`
@@ -28,18 +32,27 @@ const ItemPrice = styled.span`
     min-width: 65px;
 `;
 
-const ItemTotal = styled.span`
-    
+const OrderToppings = styled.div`
+    font-size: 10px;
+    line-height: 14px;
+    color: green;
 `;
 
 const OrderListItem = ({order}) => {
     return(
-        <OrderItemStyled>
-            <ItemName>{order.name}</ItemName>
-            <ItemTotal>1</ItemTotal>
-            <ItemPrice>{order.price.toLocaleString('ru-Ru', {style: 'currency', currency: 'RUB'})}</ItemPrice>
-            <TrashBtn/>
-        </OrderItemStyled>
+        <>
+            <OrderItemStyled>
+                <ItemName>{order.name}</ItemName>
+                <span>{order.count}</span>
+                <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
+                <TrashBtn/>
+            </OrderItemStyled>
+            <OrderToppings>
+                {order.topping.map((item,i) => (
+                    <div key={i}>{item.name}</div>
+                ))}
+            </OrderToppings>
+        </>
     )
 }
 

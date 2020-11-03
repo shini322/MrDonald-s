@@ -44,6 +44,17 @@ const GlobalStyled = createGlobalStyle`
     color: inherit;
     cursor: pointer;
   }
+
+  input, button{
+    font: inherit;
+  }
+
+  input::-webkit-outer-spin-button{
+    appearance: none;
+  }
+  input::-webkit-inner-spin-button{
+    appearance: none;
+  }
 `;
 
 export default GlobalStyled;

@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import {formatCurrency} from '../Functions/secondatyFuction';
+
 const List = styled.ul`
     display: flex;
     justify-content: space-around;
@@ -57,7 +59,7 @@ const ListItem = ({item, setOpenItem}) => {
                     <Item key={id} img={img} onClick={() => setOpenItem(item)}>
                         <ItemImg src={img} alt="img"/>
                         <p>{name}</p>
-                        <p>{price.toLocaleString('ru-Ru', {style: 'currency', currency: 'RUB'})}</p>
+                        <p>{formatCurrency(price)}</p>
                     </Item>
                 )
             })}

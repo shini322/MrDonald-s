@@ -3,7 +3,7 @@ import React from 'react';
 import NavBar from './Components/NavBar/NavBar';
 import Menu from './Components/Menu/Menu';
 import GlobalStyled from './Components/Style/GlobalStyled';
-import ModalItem from './Components/Modal/ModalItem';
+import {ModalItem} from './Components/Modal/ModalItem';
 import Order from './Components/Order/Order';
 import useOpenItem from './Components/Hooks/useOpenItem';
 import useOrders from './Components/Hooks/useOrders';

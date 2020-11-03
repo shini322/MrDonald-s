@@ -4,6 +4,10 @@ import styled from 'styled-components';
 import AddBtn from '../Style/AddBtn';
 import OrderListItem from './OrderListItem';
 
+import {totalPriceItems} from '../Functions/secondatyFuction';
+import {formatCurrency} from '../Functions/secondatyFuction';
+import useToppings from '../Hooks/useToppings';
+
 const OrderStyled = styled.div`
     position: fixed;
     display: flex;
@@ -35,6 +39,7 @@ const Total = styled.div`
     font-size: 20px;
     line-height: 24px;
     margin-bottom: 30px;
+    margin-top: 20px;
     span{
         &:first-child{
             flex-grow: 1;
@@ -45,6 +50,7 @@ const Total = styled.div`
 const TotalPrice = styled.span`
     min-width: 65px;
     text-align: right;
+    margin-left: 20px;
 `;
 
 const EmptyList = styled.p`
@@ -52,6 +58,15 @@ const EmptyList = styled.p`
 `;
 
 const Order = ({orders}) => {
+
+    const total = orders.reduce((res, order)=>{
+        return totalPriceItems(order) + res;
+    }, 0);
+
+    const totalCounter = orders.reduce((res, order)=>{
+        return order.count + res;
+    }, 0);
+
     return(
         <OrderStyled>
             <OrderTitle>Ваш заказ</OrderTitle>
@@ -64,8 +79,8 @@ const Order = ({orders}) => {
             </OrderContent>
             <Total>
                 <span>Итого</span>
-                <span>5</span>
-                <TotalPrice>850</TotalPrice>
+                <span>{totalCounter}</span>
+                <TotalPrice>{formatCurrency(total)}</TotalPrice>
             </Total>
             <AddBtn>Оформить</AddBtn>
         </OrderStyled>
