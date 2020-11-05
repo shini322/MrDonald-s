@@ -5,10 +5,12 @@ import AddBtn from '../Style/AddBtn';
 import CountItem from './CountItem';
 import useCount from '../Hooks/useCount';
 import Topping from './Toppings';
+import Choices from './Choices';
 
 import {totalPriceItems} from '../Functions/secondatyFuction';
 import {formatCurrency} from '../Functions/secondatyFuction';
 import useToppings from '../Hooks/useToppings';
+import useChoices from '../Hooks/useChoices';
 
 const Overlay = styled.div`
     position: fixed;
@@ -69,8 +71,8 @@ export const ModalItem = ({openItem, setOpenItem, orders, setOrders}) => {
 
     const counter = useCount();
     const toppings = useToppings(openItem);
-    const checkedToppings = toppings.toppings.filter(item => item.checked);
-    console.log(checkedToppings)
+
+    const choices = useChoices(openItem);
 
     const closeModal = (e) => {
         if(e.target.id === 'overlay'){
@@ -81,7 +83,8 @@ export const ModalItem = ({openItem, setOpenItem, orders, setOrders}) => {
     const order = {
         ...openItem,
         count: counter.count,
-        topping: checkedToppings
+        topping: toppings.toppings,
+        choices: choices.choices,
     };
 
     const addToOrder = () => {
@@ -102,15 +105,18 @@ export const ModalItem = ({openItem, setOpenItem, orders, setOrders}) => {
                             {formatCurrency(price)}
                         </ModalInfoItem>                    
                     </ModalInfo>
-                    <CountItem {...counter}/>
+                    <CountItem {...counter}/>                    
                     {openItem.toppings && <Topping {...toppings}/>}
+                    {openItem.choices && <Choices {...choices} openItem={openItem} />}
                     <TotalPriceItem>
                         <span>Цена: </span>
                         <span>{formatCurrency(totalPriceItems(order))}
                         </span>
                     </TotalPriceItem>
                 </ModalWrapper>
-                <AddBtn onClick={addToOrder}>
+                <AddBtn 
+                onClick={addToOrder}
+                disabled={openItem.choices && !order.choices}>
                     Добавить
                 </AddBtn>
             </Modal>

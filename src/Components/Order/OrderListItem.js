@@ -4,7 +4,6 @@ import trashImg from '../../images/trash.svg';
 
 import {totalPriceItems} from '../Functions/secondatyFuction';
 import {formatCurrency} from '../Functions/secondatyFuction';
-import useToppings from '../Hooks/useToppings';
 
 const OrderItemStyled = styled.li`
     display: flex;
@@ -38,19 +37,24 @@ const OrderToppings = styled.div`
     color: green;
 `;
 
-const OrderListItem = ({order}) => {
+const OrderListItem = ({order, orders, setOrders}) => {
+    const toppings = order.topping.filter(item => item.checked).map(item => item.name).join(', ');
+    console.log(orders)
+    console.log(order)
+    const deleteOrderItem = () => {
+        const newOrders = orders.filter(item => order.name !== item.name);
+        setOrders(newOrders);
+    }
     return(
         <>
             <OrderItemStyled>
-                <ItemName>{order.name}</ItemName>
+                <ItemName>{order.name} {order.choices}</ItemName>
                 <span>{order.count}</span>
                 <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
-                <TrashBtn/>
+                <TrashBtn onClick={deleteOrderItem}/>
             </OrderItemStyled>
             <OrderToppings>
-                {order.topping.map((item,i) => (
-                    <div key={i}>{item.name}</div>
-                ))}
+                {toppings}
             </OrderToppings>
         </>
     )

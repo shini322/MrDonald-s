@@ -29,7 +29,7 @@ const CountItem = ({count, setCount, onChange}) => {
             <div>
                 <BtnCount disabled={count <= 1} onClick={() => setCount(+count - 1)}>-</BtnCount>
                 <CountInput type='number' min='1' max='10' value={count < 1 ? 1 : count > 10 ? 10 : count} onChange={onChange}/>
-                <BtnCount onClick={() => setCount(+count + 1)}>+</BtnCount>
+                <BtnCount disabled={10 <= count} onClick={() => setCount(+count + 1)}>+</BtnCount>
             </div>
         </CountWrapper>
     )

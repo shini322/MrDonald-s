@@ -57,7 +57,7 @@ const EmptyList = styled.p`
     text-align: center;
 `;
 
-const Order = ({orders}) => {
+const Order = ({orders, setOrders}) => {
 
     const total = orders.reduce((res, order)=>{
         return totalPriceItems(order) + res;
@@ -73,7 +73,7 @@ const Order = ({orders}) => {
             <OrderContent>
                 {orders.length ? 
                 <OrderList>
-                    {orders.map((order) => <OrderListItem key={order.id} order={order}/>)}
+                    {orders.map((order) => <OrderListItem key={order.id} order={order} orders={orders} setOrders={setOrders}/>)}
                 </OrderList> :
                 <EmptyList>Список заказов пуст</EmptyList>}
             </OrderContent>

@@ -13,6 +13,15 @@ const AddBtn = styled.button`
     transition: .3s;
     border: 2px solid rgba(41,155,1, 1);
     z-index: 100;
+    &:disabled{
+        opacity: .5;
+    }
+    &:disabled&:hover{        
+        color: #fff;
+        &::after{
+            width: 100%;
+        }
+    }
     &::after{
         content: '';
         position: absolute;
