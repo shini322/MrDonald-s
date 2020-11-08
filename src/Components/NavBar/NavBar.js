@@ -35,7 +35,7 @@ const ImgLogo = styled.img`
 
 `;
 
-const Login = styled.button`
+const User = styled.button`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -43,23 +43,40 @@ const Login = styled.button`
     line-height: 19px;
 `;
 
-const LoginImg = styled.img`
+const UserImg = styled.img`
     width: 32px;
     height: 32px;
     margin-bottom: 3px;
 `;
 
-const NavBar = () => {
+const LogOut = styled.span`
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 10;
+`;
+
+const NavBar = ({authentication, logIn, logOut}) => {
     return(
         <NavBarStyled>
             <Logo href='/'>
                 <ImgLogo src={logoImg} alt="Logo"/> 
                 <H1>MrDonald's</H1> 
             </Logo>
-            <Login>
-                <LoginImg src={loginImg} alt="Login Img"/>
-                Войти
-            </Login>
+            {authentication
+            ?
+            <User>               
+                <UserImg src={loginImg} alt={authentication.displayName}/>
+                    {authentication.displayName}
+                <LogOut onClick={logOut}>X</LogOut>
+            </User>
+            :
+            <User onClick={logIn}>
+                <UserImg src={loginImg} alt='войти'/>
+                    Войти
+            </User> 
+            }
+                       
         </NavBarStyled>
     )
 };

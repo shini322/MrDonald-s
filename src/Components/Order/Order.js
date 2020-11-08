@@ -57,7 +57,7 @@ const EmptyList = styled.p`
     text-align: center;
 `;
 
-const Order = ({orders, setOrders}) => {
+const Order = ({orders, setOrders, setOpenItem, authentication, logIn, logOut}) => {
 
     const total = orders.reduce((res, order)=>{
         return totalPriceItems(order) + res;
@@ -67,13 +67,25 @@ const Order = ({orders, setOrders}) => {
         return order.count + res;
     }, 0);
 
+    const deleteOrderItem = index => {
+        const newOrders = [...orders];
+        newOrders.splice(index, 1);
+        setOrders(newOrders);
+        setOpenItem(null);
+    }
+
     return(
         <OrderStyled>
             <OrderTitle>Ваш заказ</OrderTitle>
             <OrderContent>
                 {orders.length ? 
                 <OrderList>
-                    {orders.map((order) => <OrderListItem key={order.id} order={order} orders={orders} setOrders={setOrders}/>)}
+                    {orders.map((order, i) => <OrderListItem 
+                    key={order.id} 
+                    order={order} 
+                    index={i}
+                    deleteOrderItem={deleteOrderItem}
+                    setOpenItem={setOpenItem}/>)}
                 </OrderList> :
                 <EmptyList>Список заказов пуст</EmptyList>}
             </OrderContent>
@@ -82,7 +94,7 @@ const Order = ({orders, setOrders}) => {
                 <span>{totalCounter}</span>
                 <TotalPrice>{formatCurrency(total)}</TotalPrice>
             </Total>
-            <AddBtn>Оформить</AddBtn>
+            <AddBtn onClick={authentication ? () => console.log(orders) : logIn}>Оформить</AddBtn>
         </OrderStyled>
     )
 }

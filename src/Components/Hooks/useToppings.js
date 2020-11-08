@@ -5,7 +5,7 @@ const getToppings = (toppings) => {
 }
 
 const useToppings = (openItem) => {
-    const [toppings, setToppings] = useState(openItem.toppings ? getToppings(openItem.toppings) : []);
+    const [toppings, setToppings] = useState(openItem.topping ? openItem.topping : openItem.toppings ? getToppings(openItem.toppings) : []);
 
     const checkToppings = (index) => {
         if(toppings === []) return;
